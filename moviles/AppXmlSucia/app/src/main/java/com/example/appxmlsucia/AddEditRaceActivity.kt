@@ -5,6 +5,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 
 class AddEditRaceActivity : AppCompatActivity() {
 
@@ -20,6 +23,18 @@ class AddEditRaceActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_edit_race)
+
+        // BUENA PRACTICA: respetar los insets del sistema sin pisar el padding del XML.
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(
+                left = v.paddingLeft + systemBars.left,
+                top = v.paddingTop + systemBars.top,
+                right = v.paddingRight + systemBars.right,
+                bottom = v.paddingBottom + systemBars.bottom
+            )
+            insets
+        }
 
         // MALA PRACTICA: findViewById directo.
         etRaceName = findViewById(R.id.etRaceName)

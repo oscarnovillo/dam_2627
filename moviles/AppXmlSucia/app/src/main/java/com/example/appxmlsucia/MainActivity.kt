@@ -3,6 +3,9 @@ package com.example.appxmlsucia
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -17,6 +20,18 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // BUENA PRACTICA: respetar los insets del sistema sin pisar el padding del XML.
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updatePadding(
+                left = v.paddingLeft + systemBars.left,
+                top = v.paddingTop + systemBars.top,
+                right = v.paddingRight + systemBars.right,
+                bottom = v.paddingBottom + systemBars.bottom
+            )
+            insets
+        }
 
         // MALA PRACTICA: findViewById en la Activity.
         rvRaces = findViewById(R.id.rvRaces)
