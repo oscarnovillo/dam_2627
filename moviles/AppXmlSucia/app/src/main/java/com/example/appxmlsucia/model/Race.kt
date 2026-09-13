@@ -1,4 +1,4 @@
-package com.example.appxmlsucia
+package com.example.appxmlsucia.model
 
 // Modelo simple de carrera. Toda la app usa este data class directamente.
 data class Race(

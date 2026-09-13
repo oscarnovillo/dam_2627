@@ -1,4 +1,6 @@
-package com.example.appxmlsucia
+package com.example.appxmlsucia.repository
+
+import com.example.appxmlsucia.model.Race
 
 // MALA PRACTICA: singleton mutable en memoria con datos precargados.
 // En una app real esto deberia venir de una base de datos, API, etc.
