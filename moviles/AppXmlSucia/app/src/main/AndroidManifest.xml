@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppXmlSucia">
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.main.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -23,7 +23,7 @@
         </activity>
 
         <activity
-            android:name=".AddEditRaceActivity"
+            android:name=".presentation.addedit.AddEditRaceActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>

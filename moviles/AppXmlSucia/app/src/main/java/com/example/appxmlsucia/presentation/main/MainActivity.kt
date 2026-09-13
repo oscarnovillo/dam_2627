@@ -1,9 +1,8 @@
-package com.example.appxmlsucia.view
+package com.example.appxmlsucia.presentation.main
 
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -11,8 +10,9 @@ import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appxmlsucia.R
-import com.example.appxmlsucia.adapter.RaceAdapter
-import com.example.appxmlsucia.viewmodel.MainViewModel
+import com.example.appxmlsucia.di.AppModule
+import com.example.appxmlsucia.presentation.addedit.AddEditRaceActivity
+import com.example.appxmlsucia.domain.model.Race
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
@@ -21,20 +21,22 @@ class MainActivity : AppCompatActivity() {
     private lateinit var rvRaces: RecyclerView
     private lateinit var fabAddRace: FloatingActionButton
 
-    // BUENA PRACTICA: delegado viewModels() para obtener el ViewModel.
-    private val viewModel: MainViewModel by viewModels()
+    // MALA PRACTICA: ViewModel instanciado manualmente via service locator global.
+    // Deberia inyectarse con by viewModels() + Hilt/Koin.
+    private val viewModel: MainViewModel by lazy { AppModule.provideMainViewModel() }
 
-    // MALA PRACTICA: callback en el adapter en vez de Actions bien tipadas.
-    private val adapter = RaceAdapter(
-        onEditClick = { race -> openAddEdit(race.id) },
-        onDeleteClick = { race -> confirmDelete(race) }
-    )
+    private val adapter = RaceAdapter { action ->
+        when (action) {
+            is RaceAction.Edit -> openAddEdit(action.race.id)
+            is RaceAction.Delete -> confirmDelete(action.race)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // BUENA PRACTICA: respetar los insets del sistema sin pisar el padding del XML.
+        // MALA PRACTICA DIDACTICA pero funcional: respetar insets con updatePadding.
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.updatePadding(
@@ -52,7 +54,6 @@ class MainActivity : AppCompatActivity() {
         rvRaces.layoutManager = LinearLayoutManager(this)
         rvRaces.adapter = adapter
 
-        // BUENA PRACTICA: observar LiveData desde el ViewModel.
         viewModel.races.observe(this) { races ->
             adapter.submitList(races)
         }
@@ -75,7 +76,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun confirmDelete(race: com.example.appxmlsucia.model.Race) {
+    private fun confirmDelete(race: Race) {
         // MALA PRACTICA: strings hardcodeados en codigo.
         AlertDialog.Builder(this)
             .setTitle("Borrar carrera")

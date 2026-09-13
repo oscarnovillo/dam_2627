@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AppXmlSucia</string>
+    <string name="race_laps_format">Vueltas: %1$d</string>
 </resources>

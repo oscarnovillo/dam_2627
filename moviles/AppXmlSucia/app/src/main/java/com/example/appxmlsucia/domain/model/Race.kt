@@ -1,6 +1,6 @@
-package com.example.appxmlsucia.model
+package com.example.appxmlsucia.domain.model
 
-// Modelo simple de carrera. Toda la app usa este data class directamente.
+// Entidad pura de dominio. No depende de Android ni de ningun framework.
 data class Race(
     val id: Int,
     val name: String,

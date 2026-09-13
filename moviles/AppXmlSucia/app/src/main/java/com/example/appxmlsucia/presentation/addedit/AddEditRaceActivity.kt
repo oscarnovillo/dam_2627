@@ -1,16 +1,16 @@
-package com.example.appxmlsucia.view
+package com.example.appxmlsucia.presentation.addedit
 
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import com.example.appxmlsucia.R
-import com.example.appxmlsucia.viewmodel.AddEditRaceViewModel
+import com.example.appxmlsucia.di.AppModule
+import com.example.appxmlsucia.presentation.main.MainActivity
 
 class AddEditRaceActivity : AppCompatActivity() {
 
@@ -21,14 +21,18 @@ class AddEditRaceActivity : AppCompatActivity() {
     private lateinit var etRaceLaps: EditText
     private lateinit var btnSaveRace: Button
 
-    // BUENA PRACTICA: delegado viewModels() para obtener el ViewModel.
-    private val viewModel: AddEditRaceViewModel by viewModels()
+    // MALA PRACTICA: ViewModel instanciado manualmente via service locator global.
+    private val viewModel: AddEditRaceViewModel by lazy {
+        AppModule.provideAddEditRaceViewModel(raceId)
+    }
+
+    private var raceId: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_edit_race)
 
-        // BUENA PRACTICA: respetar los insets del sistema sin pisar el padding del XML.
+        // MALA PRACTICA DIDACTICA pero funcional: respetar insets con updatePadding.
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.updatePadding(
@@ -47,8 +51,7 @@ class AddEditRaceActivity : AppCompatActivity() {
         btnSaveRace = findViewById(R.id.btnSaveRace)
 
         // MALA PRACTICA: clave de extra hardcodeada (en una app real se usa la constante del companion).
-        val raceId = intent.getIntExtra("race_id", -1)
-        viewModel.loadRace(raceId)
+        raceId = intent.getIntExtra("race_id", -1)
 
         viewModel.race.observe(this) { race ->
             if (race != null) {
@@ -64,17 +67,13 @@ class AddEditRaceActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.error.observe(this) { errorMessage ->
-            errorMessage?.let {
-                // MALA PRACTICA: Toast con string hardcodeado proveniente del ViewModel.
-                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        viewModel.saved.observe(this) { isSaved ->
+        viewModel.saveCompleted.observe(this) { isSaved ->
             if (isSaved == true) {
-                viewModel.onSaveHandled()
+                viewModel.onSaveCompletedHandled()
                 finish()
+            } else if (isSaved == false) {
+                // MALA PRACTICA: Toast con string hardcodeado.
+                Toast.makeText(this, "Completa todos los campos correctamente", Toast.LENGTH_SHORT).show()
             }
         }
 

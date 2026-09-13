@@ -1,10 +1,12 @@
-package com.example.appxmlsucia.repository
+package com.example.appxmlsucia.data.repository
 
-import com.example.appxmlsucia.model.Race
+import com.example.appxmlsucia.domain.model.Race
+import com.example.appxmlsucia.domain.repository.RaceRepository
 
-// MALA PRACTICA: singleton mutable en memoria con datos precargados.
-// En una app real esto deberia venir de una base de datos, API, etc.
-object RaceRepository {
+// MALA PRACTICA: base de datos estatica mutable en memoria.
+// Esto es un singleton mutable que sobrevive a los ciclos de vida de la app.
+// En una app real deberia usarse Room, DataStore, API remota, etc.
+object InMemoryRaceRepository : RaceRepository {
 
     private val races = mutableListOf(
         Race(1, "Gran Premio de Argentina", "Autodromo Juan y Oscar Galvez", "Argentina", 72),
@@ -15,23 +17,23 @@ object RaceRepository {
 
     private var nextId = races.maxOfOrNull { it.id }?.plus(1) ?: 1
 
-    fun getAll(): List<Race> = races.toList()
+    override fun getAll(): List<Race> = races.toList()
 
-    fun getById(id: Int): Race? = races.find { it.id == id }
+    override fun getById(id: Int): Race? = races.find { it.id == id }
 
-    fun add(race: Race) {
+    override fun add(race: Race) {
         val toAdd = race.copy(id = nextId++)
         races.add(toAdd)
     }
 
-    fun update(race: Race) {
+    override fun update(race: Race) {
         val index = races.indexOfFirst { it.id == race.id }
         if (index != -1) {
             races[index] = race
         }
     }
 
-    fun delete(id: Int) {
+    override fun delete(id: Int) {
         races.removeAll { it.id == id }
     }
 }
