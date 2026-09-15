@@ -8,12 +8,11 @@
     android:padding="16dp"
     tools:context=".AddEditRaceActivity">
 
-    <!-- MALA PRACTICA: textos hardcodeados en labels. -->
     <TextView
         android:id="@+id/tvRaceNameLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nombre de la carrera"
+        android:text="@string/label_race_name"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +22,7 @@
         android:id="@+id/etRaceName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Ej: Gran Premio de Brasil"
+        android:hint="@string/hint_race_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvRaceNameLabel" />
@@ -33,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="Circuito"
+        android:text="@string/label_circuit"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +42,7 @@
         android:id="@+id/etRaceCircuit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Ej: Autodromo Jose Carlos Pace"
+        android:hint="@string/hint_circuit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvRaceCircuitLabel" />
@@ -53,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="Pais"
+        android:text="@string/label_country"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +62,7 @@
         android:id="@+id/etRaceCountry"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Ej: Brasil"
+        android:hint="@string/hint_country"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvRaceCountryLabel" />
@@ -73,7 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="Cantidad de vueltas"
+        android:text="@string/label_laps"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -83,7 +82,7 @@
         android:id="@+id/etRaceLaps"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Ej: 71"
+        android:hint="@string/hint_laps"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -95,7 +94,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:backgroundTint="#D32F2F"
-        android:text="Guardar"
+        android:text="@string/button_save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etRaceLaps" />

@@ -10,7 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import com.example.appxmlsucia.R
 import com.example.appxmlsucia.di.AppModule
-import com.example.appxmlsucia.presentation.main.MainActivity
+import com.example.appxmlsucia.presentation.common.NavArgs
 
 class AddEditRaceActivity : AppCompatActivity() {
 
@@ -50,8 +50,7 @@ class AddEditRaceActivity : AppCompatActivity() {
         etRaceLaps = findViewById(R.id.etRaceLaps)
         btnSaveRace = findViewById(R.id.btnSaveRace)
 
-        // MALA PRACTICA: clave de extra hardcodeada (en una app real se usa la constante del companion).
-        raceId = intent.getIntExtra("race_id", -1)
+        raceId = intent.getIntExtra(NavArgs.EXTRA_RACE_ID, -1)
 
         viewModel.race.observe(this) { race ->
             if (race != null) {
@@ -59,21 +58,25 @@ class AddEditRaceActivity : AppCompatActivity() {
                 etRaceCircuit.setText(race.circuit)
                 etRaceCountry.setText(race.country)
                 etRaceLaps.setText(race.laps.toString())
-                // MALA PRACTICA: setear texto de boton con valor hardcodeado en codigo.
-                btnSaveRace.text = "Actualizar"
+                btnSaveRace.setText(R.string.button_update)
             } else {
-                // MALA PRACTICA: setear texto de boton con valor hardcodeado en codigo.
-                btnSaveRace.text = "Agregar"
+                btnSaveRace.setText(R.string.button_add)
+            }
+        }
+
+        viewModel.errorMessage.observe(this) { errorResId ->
+            errorResId?.let {
+                Toast.makeText(this, getString(it), Toast.LENGTH_SHORT).show()
+                viewModel.onErrorMessageHandled()
             }
         }
 
         viewModel.saveCompleted.observe(this) { isSaved ->
             if (isSaved == true) {
                 viewModel.onSaveCompletedHandled()
+                val feedbackRes = if (raceId != -1) R.string.race_updated else R.string.race_added
+                Toast.makeText(this, getString(feedbackRes), Toast.LENGTH_SHORT).show()
                 finish()
-            } else if (isSaved == false) {
-                // MALA PRACTICA: Toast con string hardcodeado.
-                Toast.makeText(this, "Completa todos los campos correctamente", Toast.LENGTH_SHORT).show()
             }
         }
 

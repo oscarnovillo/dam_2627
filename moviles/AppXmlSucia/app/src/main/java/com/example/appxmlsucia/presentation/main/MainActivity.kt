@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.appxmlsucia.R
 import com.example.appxmlsucia.di.AppModule
 import com.example.appxmlsucia.presentation.addedit.AddEditRaceActivity
+import com.example.appxmlsucia.presentation.common.NavArgs
 import com.example.appxmlsucia.domain.model.Race
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -70,26 +71,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openAddEdit(raceId: Int) {
-        // MALA PRACTICA: startActivity directo sin Navigation Component y con clave hardcodeada.
+        // MALA PRACTICA: startActivity directo sin Navigation Component.
         val intent = Intent(this, AddEditRaceActivity::class.java)
-        intent.putExtra(EXTRA_RACE_ID, raceId)
+        intent.putExtra(NavArgs.EXTRA_RACE_ID, raceId)
         startActivity(intent)
     }
 
     private fun confirmDelete(race: Race) {
-        // MALA PRACTICA: strings hardcodeados en codigo.
         AlertDialog.Builder(this)
-            .setTitle("Borrar carrera")
-            .setMessage("Seguro que queres borrar " + race.name + "?")
-            .setPositiveButton("Si") { _, _ ->
+            .setTitle(getString(R.string.dialog_delete_title))
+            .setMessage(getString(R.string.dialog_delete_message, race.name))
+            .setPositiveButton(getString(R.string.yes)) { _, _ ->
                 viewModel.deleteRace(race.id)
             }
-            .setNegativeButton("No", null)
+            .setNegativeButton(getString(R.string.no), null)
             .show()
     }
 
-    companion object {
-        // MALA PRACTICA: clave de extra publica y hardcodeada.
-        const val EXTRA_RACE_ID = "race_id"
-    }
 }

@@ -3,6 +3,7 @@ package com.example.appxmlsucia.presentation.addedit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.appxmlsucia.R
 import com.example.appxmlsucia.domain.model.Race
 import com.example.appxmlsucia.domain.repository.RaceRepository
 
@@ -17,6 +18,9 @@ class AddEditRaceViewModel(
     private val _saveCompleted = MutableLiveData<Boolean>()
     val saveCompleted: LiveData<Boolean> = _saveCompleted
 
+    private val _errorMessage = MutableLiveData<Int?>()
+    val errorMessage: LiveData<Int?> = _errorMessage
+
     init {
         loadRace()
     }
@@ -29,17 +33,15 @@ class AddEditRaceViewModel(
         }
     }
 
-    // MALA PRACTICA: strings de error hardcodeados en el ViewModel.
-    // Deberian vivir en strings.xml y mappearse como UiText.
     fun saveRace(name: String, circuit: String, country: String, lapsStr: String) {
         if (name.isBlank() || circuit.isBlank() || country.isBlank() || lapsStr.isBlank()) {
-            _saveCompleted.value = false
+            _errorMessage.value = R.string.error_fill_fields
             return
         }
 
         val laps = lapsStr.toIntOrNull()
         if (laps == null || laps <= 0) {
-            _saveCompleted.value = false
+            _errorMessage.value = R.string.error_invalid_laps
             return
         }
 
@@ -54,5 +56,9 @@ class AddEditRaceViewModel(
 
     fun onSaveCompletedHandled() {
         _saveCompleted.value = false
+    }
+
+    fun onErrorMessageHandled() {
+        _errorMessage.value = null
     }
 }

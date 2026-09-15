@@ -1,4 +1,33 @@
 <resources>
     <string name="app_name">AppXmlSucia</string>
+
+    <!-- Listado de carreras -->
+    <string name="fab_add_race_content_description">Agregar carrera</string>
+    <string name="delete_button_content_description">Botón borrar</string>
     <string name="race_laps_format">Vueltas: %1$d</string>
+
+    <!-- Dialogo de borrado -->
+    <string name="dialog_delete_title">Borrar carrera</string>
+    <string name="dialog_delete_message">¿Seguro que querés borrar %1$s?</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+
+    <!-- Formulario agregar/editar -->
+    <string name="label_race_name">Nombre de la carrera</string>
+    <string name="hint_race_name">Ej: Gran Premio de Brasil</string>
+    <string name="label_circuit">Circuito</string>
+    <string name="hint_circuit">Ej: Autódromo José Carlos Pace</string>
+    <string name="label_country">País</string>
+    <string name="hint_country">Ej: Brasil</string>
+    <string name="label_laps">Cantidad de vueltas</string>
+    <string name="hint_laps">Ej: 71</string>
+    <string name="button_save">Guardar</string>
+    <string name="button_add">Agregar</string>
+    <string name="button_update">Actualizar</string>
+
+    <!-- Errores y feedback -->
+    <string name="error_fill_fields">Completa todos los campos correctamente</string>
+    <string name="error_invalid_laps">Vueltas inválidas</string>
+    <string name="race_added">Carrera agregada</string>
+    <string name="race_updated">Carrera actualizada</string>
 </resources>

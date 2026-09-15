@@ -57,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Boton borrar"
+            android:contentDescription="@string/delete_button_content_description"
             android:padding="8dp"
             android:src="@android:drawable/ic_delete"
             app:layout_constraintBottom_toBottomOf="parent"
