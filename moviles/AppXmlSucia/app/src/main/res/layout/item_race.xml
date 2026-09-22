@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:textSize="14sp"
-            back
+
             app:layout_constraintEnd_toStartOf="@id/btnDelete"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvRaceCountry" />
