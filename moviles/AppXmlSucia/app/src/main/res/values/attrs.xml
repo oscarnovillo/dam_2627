@@ -1,0 +1,6 @@
+<resources>
+    <attr name="colorPinkiPromise" format="color" />
+    <attr name="colorOnPinkiPromise" format="color" />
+    <attr name="colorPinkiPromiseContainer" format="color" />
+    <attr name="colorOnPinkiPromiseContainer" format="color" />
+</resources>
