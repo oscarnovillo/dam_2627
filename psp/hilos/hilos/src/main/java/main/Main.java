@@ -1,12 +1,11 @@
 package main;
 
-import jdk.swing.interop.SwingInterOpUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -14,31 +13,33 @@ public class Main {
 
 
     private static final int NUM_HILOS = 100;
-    public static int contador = 0;
-    public static ReentrantLock lock = new ReentrantLock();
-    public static Semaphore semaphore = new Semaphore(1);
+    private int contador = 0;
+    public final ReentrantLock lock = new ReentrantLock();
+    public final Semaphore semaphore = new Semaphore(1);
+
+
 
     private Main() {
         // Constructor privado para clase utilitaria
     }
 
-    public static void sumar() {
+    public  void sumar() {
         synchronized (lock) {
-            contador++;
+            setContador(getContador() + 1);
         }
     }
 
-    public static void sumar1() {
+    public  void sumar1() {
         synchronized (lock) {
-            contador++;
+            setContador(getContador() + 1);
         }
     }
 
-    public static void sumarConLock() {
+    public  void sumarConLock() {
         Boolean noHecho = true;
         while (noHecho) {
             if (lock.tryLock()) {
-                contador++;
+                setContador(getContador() + 1);
                 noHecho = false;
                 lock.unlock();
             } else {
@@ -55,11 +56,11 @@ public class Main {
     }
 
 
-    public static void sumarConSemaphore() {
+    public  void sumarConSemaphore() {
         Boolean noHecho = true;
         while (noHecho) {
             if (semaphore.tryAcquire()) {
-                contador++;
+                setContador(getContador() + 1);
                 noHecho = false;
                 semaphore.release();
             } else {
@@ -77,7 +78,7 @@ public class Main {
 
     static void main(String[] args) throws InterruptedException {
         System.out.println("=== SUMA CON HILOS TRADICIONALES (Thread.start()) ===");
-
+        Main m =  new Main();
         // Generar los mismos números que usarán todas las implementaciones
         List<Thread> hilos = new ArrayList<>();
         final AtomicInteger contador1 = new AtomicInteger(0);
@@ -102,7 +103,7 @@ public class Main {
                         } catch (InterruptedException e) {
 
                         }
-                        Main.sumarConSemaphore();
+                        m.sumarConSemaphore();
             });
 
             //hilos.add(hilo);
@@ -118,9 +119,17 @@ public class Main {
 //            }
 //        });
         executor.shutdown();
-        Thread.sleep(4000);
-        System.out.println(contador);
+        while (!executor.awaitTermination(1, TimeUnit.MINUTES));
+        System.out.println(m.getContador());
         System.out.println(contador1.get());
         //executor.shutdown();
+    }
+
+    public int getContador() {
+        return contador;
+    }
+
+    public void setContador(int contador) {
+        this.contador = contador;
     }
 }
