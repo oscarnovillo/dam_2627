@@ -1,12 +1,13 @@
-package com.example.myapplication
+package com.example.myapplication.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -31,17 +32,33 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val t: TextView = binding.texto
-        t.text = "ANDROID SUCKS "
+        val t = binding.filledTextField
+        t.editText?.setText("Nuevo texto")
 
+        val caja = binding.txcajaTexto
+        caja.setText("oscar")
+
+        val s = t.editText?.text ?: "por defecto"
 
         val button : Button = binding.button
         button.setOnClickListener {
-            t.text = "DESDE EL BUTTON ALSO SUCKS"
+            t.editText?.setText("Nuevo texto")
         }
 
 
+        val btLAnzar = binding.buttonLanzaPantalla
+        btLAnzar.setOnClickListener {
 
+            val intent = Intent(this, DetalleActivity::class.java)
+            intent.putExtra("id", 1)
+            startActivity(intent)
+        }
+
+    }
+
+
+    private fun openAddEdit(raceId: Int) {
+        // MALA PRACTICA: startActivity directo sin Navigation Component.
 
     }
 }
