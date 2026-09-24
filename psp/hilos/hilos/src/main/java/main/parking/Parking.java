@@ -11,7 +11,7 @@ public class Parking {
     public static final int PLAZAS = 10;
     public static final int NUM_COCHES= 1000;
 
-    private final CountDownLatch latch = new CountDownLatch(NUM_COCHES*2);
+    private final CountDownLatch latch =  new CountDownLatch(NUM_COCHES*2);
     private AtomicInteger contadorCochesAparcados = new AtomicInteger();
     private AtomicInteger contadorCochesSeVan = new AtomicInteger(0);
     private final Random rand = new Random();
