@@ -54,18 +54,6 @@ Implementa un método `transferir(CuentaBancaria destino, int cantidad)` que hag
 
 ---
 
-## 4. `wait()`/`notify()` — Comunicación entre hilos
-
-### Ejercicio 4.1 — "Buffer de un solo hueco (productor-consumidor)"
-Implementa una clase `Buffer` con capacidad 1 y métodos `poner(int valor)` y `int tomar()`, ambos `synchronized`, usando `wait()` y `notifyAll()` para evitar que el productor sobrescriba un valor no consumido y que el consumidor lea un buffer vacío.
-
-**Requisitos:**
-- Un hilo productor genera números del 1 al 20.
-- Un hilo consumidor los consume e imprime.
-- Usa un bucle `while` (no `if`) al comprobar la condición antes de `wait()`.
-
----
-
 ## 5. `ReentrantLock`, `Semaphore`, `AtomicInteger` — Alternativas a `synchronized`
 
 ### Ejercicio 5.1 — "Parking con plazas limitadas"
