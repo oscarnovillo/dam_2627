@@ -3,6 +3,8 @@ package com.example.mvvmprueba.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.example.mvvmprueba.di.AppModule
 import com.example.mvvmprueba.domain.useCases.DamePresidenteUseCase
 
 class MainViewModel(val damePresidenteUseCase: DamePresidenteUseCase) : ViewModel() {
@@ -27,4 +29,14 @@ class MainViewModel(val damePresidenteUseCase: DamePresidenteUseCase) : ViewMode
 
     //
 
+}
+
+class MainViewModelFactory(private val damePresidenteUseCase: DamePresidenteUseCase) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return MainViewModel(damePresidenteUseCase) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
 }

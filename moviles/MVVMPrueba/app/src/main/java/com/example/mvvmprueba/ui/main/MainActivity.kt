@@ -3,6 +3,7 @@ package com.example.mvvmprueba.ui.main
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -14,7 +15,7 @@ class MainActivity : AppCompatActivity() {
 
     private val binding : ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
-    private val viewModel : MainViewModel by lazy { AppModule.provideMainViewModel() }
+    private val viewModel : MainViewModel by viewModels { MainViewModelFactory(AppModule.damePresidenteUseCase) }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity() {
                 binding.textView.text = it
             }
 
-            it?.error.let{ error ->
+            it?.error?.let{ error ->
                 Toast.makeText(this,error,Toast.LENGTH_SHORT).show()
             }
         })
