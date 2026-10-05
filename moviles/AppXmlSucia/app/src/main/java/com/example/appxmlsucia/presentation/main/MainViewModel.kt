@@ -10,8 +10,8 @@ class MainViewModel(
     private val raceRepository: RaceRepository
 ) : ViewModel() {
 
-    private val _races = MutableLiveData<List<Race>>()
-    val races: LiveData<List<Race>> = _races
+    private val _races = MutableLiveData(MainState())
+    val races: LiveData<MainState> = _races
 
     init {
         loadRaces()
@@ -20,11 +20,24 @@ class MainViewModel(
     fun loadRaces() {
         // MALA PRACTICA: carga sincronica directa al repositorio in-memory.
         // En una app real se usaria Flow/StateFlow y corrutinas con Dispatchers.IO.
-        _races.value = raceRepository.getAll()
+//        _races.value = MainState(
+//            races = raceRepository.getAll(),
+//            error = _races.value?.error,
+//        )
+        _races.value = _races.value?.copy(races= raceRepository.getAll())
     }
 
     fun deleteRace(id: Int) {
+        if (id %2 == 0) {
+            _races.value = _races.value?.copy(error= "estoy cansado")
+
+        }
+            else{
         raceRepository.delete(id)
-        loadRaces()
+        loadRaces()}
+    }
+
+    fun limpiarError() {
+        _races.value = _races.value?.copy(error= null)
     }
 }
