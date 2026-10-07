@@ -3,6 +3,7 @@ package com.example.appxmlsucia.presentation.main
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -12,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.appxmlsucia.R
 import com.example.appxmlsucia.di.AppModule
 import com.example.appxmlsucia.presentation.addedit.AddEditRaceActivity
-import com.example.appxmlsucia.presentation.common.NavArgs
+//import com.example.appxmlsucia.presentation.common.NavArgs
 import com.example.appxmlsucia.domain.model.Race
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -56,7 +57,12 @@ class MainActivity : AppCompatActivity() {
         rvRaces.adapter = adapter
 
         viewModel.races.observe(this) { races ->
-            adapter.submitList(races)
+            adapter.submitList(races.races)
+
+            races.error.let {
+                Toast.makeText(this, " ${races.error}", Toast.LENGTH_SHORT).show()
+            }
+            viewModel.limpiarError()
         }
 
         fabAddRace.setOnClickListener {
@@ -73,7 +79,7 @@ class MainActivity : AppCompatActivity() {
     private fun openAddEdit(raceId: Int) {
         // MALA PRACTICA: startActivity directo sin Navigation Component.
         val intent = Intent(this, AddEditRaceActivity::class.java)
-        intent.putExtra(NavArgs.EXTRA_RACE_ID, raceId)
+        intent.putExtra("id", raceId)
         startActivity(intent)
     }
 

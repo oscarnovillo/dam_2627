@@ -10,7 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import com.example.appxmlsucia.R
 import com.example.appxmlsucia.di.AppModule
-import com.example.appxmlsucia.presentation.common.NavArgs
+//import com.example.appxmlsucia.presentation.common.NavArgs
 
 class AddEditRaceActivity : AppCompatActivity() {
 
@@ -50,7 +50,7 @@ class AddEditRaceActivity : AppCompatActivity() {
         etRaceLaps = findViewById(R.id.etRaceLaps)
         btnSaveRace = findViewById(R.id.btnSaveRace)
 
-        raceId = intent.getIntExtra(NavArgs.EXTRA_RACE_ID, -1)
+        raceId = intent.getIntExtra("id", -1)
 
         viewModel.race.observe(this) { race ->
             if (race != null) {
