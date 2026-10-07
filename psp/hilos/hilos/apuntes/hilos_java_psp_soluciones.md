@@ -1,7 +1,7 @@
 # PSP — Programación Multihilo en Java
 ## Soluciones de referencia de los ejercicios
 
-> Estas son soluciones de referencia con fines docentes. Hay varias formas correctas de resolver cada ejercicio; lo importante es que el alumnado justifique sus decisiones de diseño.
+> Estas son solucionesEjerciciosHilosJava25 de referencia con fines docentes. Hay varias formas correctas de resolver cada ejercicio; lo importante es que el alumnado justifique sus decisiones de diseño.
 
 ---
 
