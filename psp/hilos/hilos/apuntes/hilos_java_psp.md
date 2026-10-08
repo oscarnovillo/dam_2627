@@ -11,7 +11,7 @@ Al finalizar esta unidad, el alumnado será capaz de:
 - Identificar y resolver condiciones de carrera mediante sincronización.
 - Implementar comunicación entre hilos con `wait()`/`notify()`.
 - Utilizar las herramientas de alto nivel de `java.util.concurrent`.
-- Diseñar soluciones concurrentes correctas, evitando deadlocks e interbloqueos.
+- Diseñar solucionesEjerciciosHilosJava25 concurrentes correctas, evitando deadlocks e interbloqueos.
 
 ---
 
@@ -27,7 +27,7 @@ Al finalizar esta unidad, el alumnado será capaz de:
 Crea una clase `ContadorThread` que extienda `Thread` y que imprima los números del 1 al 10 con una pausa de 500 ms entre cada uno. Lánzalo desde el `main` y observa qué ocurre si lanzas dos instancias a la vez.
 
 ### Ejercicio 1.2 — El mismo ejercicio con `Runnable`
-Reimplementa el ejercicio 1.1 pero implementando la interfaz `Runnable` en lugar de heredar de `Thread`. Compara ambas soluciones: ¿qué ventajas tiene usar `Runnable`?
+Reimplementa el ejercicio 1.1 pero implementando la interfaz `Runnable` en lugar de heredar de `Thread`. Compara ambas solucionesEjerciciosHilosJava25: ¿qué ventajas tiene usar `Runnable`?
 
 ### Ejercicio 1.3 — El error clásico
 Escribe un programa que cree un hilo y llame a `run()` en lugar de `start()`. Observa la salida y explica por escrito, con tus propias palabras, por qué no se ha creado un hilo nuevo.

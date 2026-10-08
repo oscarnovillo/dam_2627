@@ -52,7 +52,7 @@ public class Parking {
     {
         for (int i = 0; i < NUM_COCHES; i++)
         {
-            coches.add(new Thread(() -> this.runCoche(parking)));
+            coches.add(new Thread(() -> this.runCoche(parking),"nombre"));
             executor.submit(() -> this.runCoche(parkingExecutor));
         }
         coches.forEach(Thread::start);
