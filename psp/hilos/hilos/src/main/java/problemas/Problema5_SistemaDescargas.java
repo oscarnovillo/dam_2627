@@ -123,6 +123,8 @@ public class Problema5_SistemaDescargas {
                         System.out.println("[" + ahora() + "] usuario-" + id + " FALLO tras "
                                 + MAX_INTENTOS + " intentos: " + nombre);
                     }
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 } finally {
                     fin.countDown();
                 }
