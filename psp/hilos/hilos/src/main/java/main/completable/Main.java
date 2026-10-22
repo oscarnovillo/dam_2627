@@ -1,8 +1,8 @@
 package main.completable;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.concurrent.*;
 
 public class Main {
 
@@ -34,8 +34,10 @@ public class Main {
                         )
                 );
 
+        BlockingQueue<Usuario> b = new ArrayBlockingQueue<>(10);
+        
 
-        System.out.println("FINAL");
+
 
     }
 
