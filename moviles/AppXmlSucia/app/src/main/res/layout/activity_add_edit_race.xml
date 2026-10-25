@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".AddEditRaceActivity">
+    tools:context=".presentation.addedit.AddEditRaceActivity">
 
     <TextView
         android:id="@+id/tvRaceNameLabel"
