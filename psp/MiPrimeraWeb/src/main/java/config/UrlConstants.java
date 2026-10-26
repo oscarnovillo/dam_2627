@@ -20,5 +20,6 @@ public final class UrlConstants {
 
     // Nombres de plantillas
     public static final String TEMPLATE_HOLA = "hola";
+    public static final String TEMPLATE_TRES_EN_RAYA = "tresEnRaya";
     public static final String TEMPLATE_ADIVINA = "adivina";
 }
