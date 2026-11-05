@@ -14,29 +14,56 @@ import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
 
-    fun onAddPirata()
-    {
-        Pirata(apellido= _state.value.textStatePirata.text as String,nombre="")
+    init {
+        //cargar datos
     }
-    fun onChangePirata(pirata :Pirata ) {
+
+    fun onBorrarPirata(pirata: Pirata) {
+
+        _state.update {
+            it.copy(
+                piratas = _state.value.piratas.filterNot { elemento -> elemento.nombre == pirata.nombre },
+                error = "probando ${pirata.nombre}"
+            )
+        }
+    }
+
+    fun onAddPirata() {
+        Pirata(apellido = _state.value.textStatePirata.text as String, nombre = "")
+    }
+
+    fun onChangePirata(pirata: Pirata) {
         viewModelScope.launch {
 //            _state.update { it.copy(loading = true) }
 //            delay(4000.milliseconds)
 
-            _state.update { it.copy(texto = pirata.nombre, pirata = pirata
-                ,loading = false) }
+            _state.update {
+                it.copy(
+                    texto = pirata.nombre, pirata = pirata, loading = false
+                )
+            }
         }
     }
 
-    private val _state = MutableStateFlow(MainState(textStatePirata = TextFieldState("Monkey D."), pirata= Pirata("luffy","Monkey D.")))
+    fun limpiarError() {
+        _state.update {
+            it.copy(
+                error = null
+            )
+        }
+    }
 
-    val state : StateFlow<MainState> = _state.asStateFlow()
+    private val _state = MutableStateFlow(
+        MainState(
+            textStatePirata = TextFieldState("Monkey D."),
+            pirata = Pirata("luffy", "Monkey D.")
+        )
+    )
+
+    val state: StateFlow<MainState> = _state.asStateFlow()
 
 
-
-    class MainViewModelFactory(
-
-    ) : ViewModelProvider.Factory {
+    class MainViewModelFactory : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST") return MainViewModel(
