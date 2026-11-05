@@ -10,60 +10,95 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Devices.NEXUS_7
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.micomposito.domain.Pirata
 import com.example.micomposito.ui.theme.MiCompositoTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent( content={
+        setContent   {
             MiCompositoTheme {
                 MainPantalla()
             }
-        })
+        }
     }
 }
 
 
 @Composable
-fun MainPantalla(modifier: Modifier = Modifier) {
+fun MainPantalla(modifier: Modifier = Modifier,
+                 viewModel : MainViewModel = viewModel(),
+) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
 
+    MainPantallaContent(
+        modifier = modifier,
+        state = state,
+        onChangePirata = viewModel::onChangePirata, onAddPirata = viewModel::onAddPirata,
+    )
+}
+
+
+@Composable
+fun MainPantallaContent(
+    modifier: Modifier = Modifier,
+    state: MainState,
+    onChangePirata: (Pirata) -> Unit,
+    onAddPirata: () -> Unit,
+
+    ) {
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-        var texto by rememberSaveable{ mutableStateOf("pepe") }
-        Column(modifier= Modifier.padding(innerPadding)) {
-            ElevatedButton(onClick = {
-                texto= "${texto.length} lll"
 
-            }) {
-                Text("Elevated")
+        Column(modifier= Modifier.padding(innerPadding)) {
+
+            Row {
+                val stateTexto =TextFieldState(state.texto)
+                ElevatedButton(onClick = {
+
+                    onAddPirata()
+                }) {
+                    Text("Add")
+                }
+                if (state.loading){
+                    CircularProgressIndicator()
+                }
+                Column() {
+                    OutlinedTextField(
+                        value = state.pirata.nombre,
+                        onValueChange = { texto: String -> onChangePirata(state.pirata.copy(nombre = texto)) },
+                    )
+                    OutlinedTextField(
+                        state = state.textStatePirata,
+
+                        )
+                }
+
+
             }
 
-
             FilaDeMierda(
-                text = texto,
+                text = state.texto,
                 colorTexto = Color.Yellow,
                 modifier = Modifier.weight(1F)
                     .background(Color.Magenta)
@@ -82,9 +117,9 @@ fun MainPantalla(modifier: Modifier = Modifier) {
 
         }
     }
-    
-}
 
+
+}
 @Composable
 fun FilaDeMierda(text : String = "Android",colorTexto : Color,modifier: Modifier = Modifier) {
     (1..3).forEach {
@@ -102,7 +137,9 @@ fun FilaDeMierda(text : String = "Android",colorTexto : Color,modifier: Modifier
 
 
             )
-            Box(modifier = Modifier.background(MaterialTheme.colorScheme.error).weight(0.8F)) {
+            Box(modifier = Modifier
+                .background(MaterialTheme.colorScheme.error)
+                .weight(0.8F)) {
                 Greeting(
                     name = "TuPutaMadre",
                     modifier = Modifier.align(Alignment.BottomCenter)
@@ -127,11 +164,40 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 }
 
 @Preview(showBackground = true, device = "spec:parent=medium_phone,orientation=portrait",
-    showSystemUi = true
+    showSystemUi = true, name = "loading"
 )
 @Composable
 fun GreetingPreview() {
+    MiCompositoTheme {
+        MainPantallaContent(
+            state = MainState(
+                loading = true,
+                textStatePirata = TextFieldState("mierda"),
+                pirata = Pirata("Zoro", "Ronoroa")
+            ),
+            onChangePirata = TODO(),
+        ) { }
+    }
 
-        MainPantalla()
+}
+
+
+@Preview(showBackground = true, device = "spec:parent=medium_phone,orientation=portrait",
+    showSystemUi = true, name = "not loading"
+)
+@Composable
+fun GreetingPreviewNotLoading() {
+    MiCompositoTheme {
+        MainPantallaContent(
+            state = MainState(
+                texto = "uno",
+                loading = false,
+                textStatePirata = TextFieldState("mierda"),
+                pirata = Pirata("Nami", "")
+            ),
+
+            onChangePirata = TODO(),
+        ) { }
+    }
 
 }
