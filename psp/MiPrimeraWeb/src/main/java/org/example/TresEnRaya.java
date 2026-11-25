@@ -19,36 +19,49 @@ import java.net.http.HttpClient;
 public class TresEnRaya extends HttpServlet {
 
 
-
+    public static final String BASE_3_EN_RAYA = "-";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String marca = req.getParameter("marca");
         String coordenada = req.getParameter("coordenada");
+        var webExchange = JakartaServletWebApplication.buildApplication(getServletContext())
+                .buildExchange(req, resp);
+        WebContext ctx = new WebContext(webExchange);
 
         if (marca==null || coordenada==null) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"ASver si te entreras cabron, parametro requertido");
             return;
         }
-
-
-
-        String[] Tablero = (String[]) req.getSession().getAttribute("Tablero");
-        if (Tablero==null) {
-            Tablero = new String[]{"-", "-", "-", "-", "-", "-", "-", "-", "-"};
-            req.getSession().setAttribute("Tablero",Tablero);
+        String turno= (String) req.getSession().getAttribute("Turno");
+        if (turno==null) {
+            turno = "X";
         }
 
-        Tablero[Integer.parseInt(coordenada)-1]=marca;
+        if (!turno.equalsIgnoreCase(marca)) {
+            ctx.setVariable("error", "el turno es de "+turno);
+        }
 
-        String fila1 = Tablero[0]+ " " + Tablero[1]+ " " + Tablero[2];
-        String fila2 = Tablero[3]+ " " + Tablero[4]+ " " + Tablero[5];
-        String fila3 = Tablero[6]+ " " + Tablero[7] + " " + Tablero[8];
 
-        var webExchange = JakartaServletWebApplication.buildApplication(getServletContext())
-                .buildExchange(req, resp);
-        WebContext ctx = new WebContext(webExchange);
+        String[] tablero = (String[]) req.getSession().getAttribute("Tablero");
+        if (tablero==null) {
+            tablero = new String[]{BASE_3_EN_RAYA, "-", "-", "-", "-", "-", "-", "-", "-"};
+            req.getSession().setAttribute("Tablero",tablero);
+        }
+
+        if (!tablero[Integer.parseInt(coordenada)-1].equalsIgnoreCase(BASE_3_EN_RAYA)) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"ASver si te entreras cabron, parametro requertido");
+            return;
+        }
+
+        tablero[Integer.parseInt(coordenada)-1]=marca;
+
+        String fila1 = tablero[0]+ " " + tablero[1]+ " " + tablero[2];
+        String fila2 = tablero[3]+ " " + tablero[4]+ " " + tablero[5];
+        String fila3 = tablero[6]+ " " + tablero[7] + " " + tablero[8];
+
+
         ctx.setVariable("fila1", fila1);
         ctx.setVariable("fila2", fila2);
         ctx.setVariable("fila3", fila3);
@@ -56,6 +69,8 @@ public class TresEnRaya extends HttpServlet {
         ((TemplateEngine)getServletContext().getAttribute(ThymeleafConstants.TEMPLATE_ENGINE_ATTR))
                 .process(UrlConstants.TEMPLATE_TRES_EN_RAYA, ctx, resp.getWriter());
 
+        turno = turno.equalsIgnoreCase("X")?"O":"X";
+        req.getSession().setAttribute("Turno",turno);
 
     }
 
