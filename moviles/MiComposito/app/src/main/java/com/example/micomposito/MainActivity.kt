@@ -15,10 +15,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.input.TextFieldLineLimits
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldLabelPosition
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -60,7 +64,13 @@ fun MainPantalla(modifier: Modifier = Modifier) {
             }) {
                 Text("Elevated")
             }
-
+            TextField(
+                state = rememberTextFieldState(),
+                lineLimits = TextFieldLineLimits.SingleLine,
+                label = { Text("Email") },
+                labelPosition = TextFieldLabelPosition.Inside(isAlwaysMinimized = alwaysMinimizeLabel),
+                placeholder = { Text("example@gmail.com") },
+            )
 
             FilaDeMierda(
                 text = texto,

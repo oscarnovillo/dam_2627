@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F9FA">
+
+    <!-- Toolbar Superior -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:background="#4A37B6"
+        app:navigationIcon="@drawable/ic_school"
+        app:navigationIconTint="@android:color/white"
+        app:title="Gestión de alumnos"
+        app:titleTextColor="@android:color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Título de la Lista -->
+    <TextView
+        android:id="@+id/tvTituloLista"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Lista de alumnos (5)"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- RecyclerView (Acupa exactamente el 40% del alto de la pantalla) -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAlumnos"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintHeight_percent="0.40"
+        app:layout_constraintTop_toBottomOf="@id/tvTituloLista"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_alumno_temp" />
+
+    <!-- Card Contenedora del Formulario -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardFormulario"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:cardBackgroundColor="#F1EDFB"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="0dp"
+        app:layout_constraintTop_toBottomOf="@id/rvAlumnos"
+        app:layout_constraintBottom_toTopOf="@id/btnBorrarAlumno"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- ConstraintLayout interno dentro del Card -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="12dp">
+
+            <!-- Icono Encabezado -->
+            <ImageView
+                android:id="@+id/ivIconoForm"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="Añadir alumno"
+                android:src="@drawable/ic_person_add"
+                app:tint="#4A37B6"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- Título Encabezado -->
+            <TextView
+                android:id="@+id/tvTituloForm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Añadir nuevo alumno"
+                android:textColor="#4A37B6"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="@id/ivIconoForm"
+                app:layout_constraintBottom_toBottomOf="@id/ivIconoForm"
+                app:layout_constraintStart_toEndOf="@id/ivIconoForm"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Campo: Nombre -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilNombre"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="4dp"
+                android:hint="Nombre"
+                app:startIconDrawable="@drawable/ic_person"
+                app:layout_constraintTop_toBottomOf="@id/ivIconoForm"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tilApellidos"
+                app:layout_constraintHorizontal_weight="1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nombre del alumno"
+                    android:inputType="textPersonName"
+                    android:textSize="13sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Campo: Apellidos -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilApellidos"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:hint="Apellidos"
+                app:startIconDrawable="@drawable/ic_person"
+                app:layout_constraintTop_toTopOf="@id/tilNombre"
+                app:layout_constraintStart_toEndOf="@id/tilNombre"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Apellidos del alumno"
+                    android:inputType="textPersonName"
+                    android:textSize="13sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Campo: Curso -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilCurso"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:hint="Curso"
+                app:startIconDrawable="@drawable/ic_school"
+                app:layout_constraintTop_toBottomOf="@id/tilNombre"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tilEdad"
+                app:layout_constraintHorizontal_weight="1">
+
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:text="1º DAM"
+                    android:textSize="13sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Campo: Edad -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilEdad"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:hint="Edad"
+                app:startIconDrawable="@drawable/ic_calendar"
+                app:layout_constraintTop_toTopOf="@id/tilCurso"
+                app:layout_constraintStart_toEndOf="@id/tilCurso"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Edad"
+                    android:inputType="number"
+                    android:textSize="13sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Campo: Email -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilEmail"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:hint="Email"
+                app:startIconDrawable="@drawable/ic_mail"
+                app:layout_constraintTop_toBottomOf="@id/tilCurso"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/cbActivo"
+                app:layout_constraintHorizontal_weight="1.2">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="correo@ejemplo.es"
+                    android:inputType="textEmailAddress"
+                    android:textSize="13sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Checkbox: Activo -->
+            <CheckBox
+                android:id="@+id/cbActivo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:checked="true"
+                android:text="Alumno activo"
+                android:textSize="12sp"
+                app:layout_constraintTop_toTopOf="@id/tilEmail"
+                app:layout_constraintBottom_toBottomOf="@id/tilEmail"
+                app:layout_constraintStart_toEndOf="@id/tilEmail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="0.8" />
+
+            <!-- Botón: Añadir Alumno -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAñadirAlumno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:backgroundTint="#4A37B6"
+                android:paddingHorizontal="16dp"
+                android:text="Añadir alumno"
+                android:textAllCaps="false"
+                android:textSize="13sp"
+                app:cornerRadius="8dp"
+                app:icon="@drawable/ic_add"
+                app:layout_constraintTop_toBottomOf="@id/tilEmail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Botón Inferior: Borrar alumno seleccionado -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnBorrarAlumno"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="12dp"
+        android:paddingVertical="8dp"
+        android:text="Borrar alumno seleccionado"
+        android:textAllCaps="false"
+        android:textColor="#D32F2F"
+        android:textSize="14sp"
+        app:cornerRadius="8dp"
+        app:icon="@drawable/ic_delete"
+        app:iconTint="#D32F2F"
+        app:strokeColor="#FFCDD2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

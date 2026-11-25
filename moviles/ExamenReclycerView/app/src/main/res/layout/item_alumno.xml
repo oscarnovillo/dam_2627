@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="6dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="0dp"
+    app:strokeColor="#6200EE"
+    app:strokeWidth="1dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <!-- Avatar circular con iniciales -->
+        <TextView
+            android:id="@+id/tvAvatar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_circle_avatar"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="LA" />
+
+        <!-- Nombre del alumno -->
+        <TextView
+            android:id="@+id/tvNombre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/tvEstado"
+            app:layout_constraintStart_toEndOf="@+id/tvAvatar"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Lucía Álvarez García" />
+
+        <!-- Curso y Edad -->
+        <TextView
+            android:id="@+id/tvCursoEdad"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="#666666"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/tvEstado"
+            app:layout_constraintStart_toStartOf="@+id/tvNombre"
+            app:layout_constraintTop_toBottomOf="@+id/tvNombre"
+            tools:text="1º DAM  •  18 años" />
+
+        <!-- Icono de correo -->
+        <ImageView
+            android:id="@+id/ivEmailIcon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="4dp"
+            android:contentDescription="Icono Email"
+            android:src="@drawable/ic_mail"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tvCursoEdad"
+            app:layout_constraintTop_toBottomOf="@+id/tvCursoEdad"
+            app:tint="#666666" />
+
+        <!-- Dirección de Email -->
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:textColor="#666666"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ivEmailIcon"
+            app:layout_constraintEnd_toStartOf="@+id/btnNext"
+            app:layout_constraintStart_toEndOf="@+id/ivEmailIcon"
+            app:layout_constraintTop_toTopOf="@+id/ivEmailIcon"
+            tools:text="lucia.alvarez@iesquevedo.es" />
+
+        <!-- Badge de Estado (Activo/Inactivo) -->
+        <TextView
+            android:id="@+id/tvEstado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_badge_activo"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="4dp"
+            android:textColor="#1B5E20"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/btnNext"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Activo" />
+
+        <!-- Flecha derecha -->
+        <ImageView
+            android:id="@+id/btnNext"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="Ver detalle"
+            android:src="@drawable/ic_chevron_right"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="#666666" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

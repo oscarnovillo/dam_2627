@@ -1,6 +1,7 @@
 package examen;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CyclicBarrier;
 
 /*
 Corregir una cadena de `CompletableFuture` (1.5 Pto)
@@ -16,6 +17,7 @@ corrigelos y exploca en un comentario que estaba mal y como lo has arreglado.
 public class Ejercicio1 {
 
     static void main() {
+        CyclicBarrier c = new CyclicBarrier(3);
         CompletableFuture<Void> tarea =
                 CompletableFuture.supplyAsync(() -> 10)
                         .thenApply(n -> n * 2)
