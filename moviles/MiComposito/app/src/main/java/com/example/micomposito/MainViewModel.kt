@@ -4,15 +4,21 @@ import androidx.compose.foundation.text.input.TextFieldState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.micomposito.UseCase.BorrarPirataUseCase
 import com.example.micomposito.domain.Pirata
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val borraPirataUseCase: BorrarPirataUseCase,
 
-class MainViewModel : ViewModel() {
+    ): ViewModel() {
 
     init {
         //cargar datos
@@ -22,7 +28,7 @@ class MainViewModel : ViewModel() {
 
         _state.update {
             it.copy(
-                piratas = _state.value.piratas.filterNot { elemento -> elemento.nombre == pirata.nombre },
+                piratas = borraPirataUseCase(piratas = _state.value.piratas,nombre = pirata.nombre),
                 error = "probando ${pirata.nombre}"
             )
         }
@@ -63,13 +69,5 @@ class MainViewModel : ViewModel() {
     val state: StateFlow<MainState> = _state.asStateFlow()
 
 
-    class MainViewModelFactory : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-                @Suppress("UNCHECKED_CAST") return MainViewModel(
-                ) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel class")
-        }
-    }
+
 }

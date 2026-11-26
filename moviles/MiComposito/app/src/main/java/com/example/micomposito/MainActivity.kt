@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -31,6 +32,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -39,21 +43,34 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.window.core.layout.WindowSizeClass
+import coil.compose.AsyncImage
 import com.example.micomposito.domain.Pirata
+import com.example.micomposito.ui.common.DeviceConfiguration
+import com.example.micomposito.ui.common.currentDeviceConfiguration
+import com.example.micomposito.ui.theme.Dimens
 import com.example.micomposito.ui.theme.MiCompositoTheme
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent   {
             MiCompositoTheme {
+
                 MainPantalla()
             }
         }
@@ -64,8 +81,11 @@ class MainActivity : ComponentActivity() {
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun MainPantalla(modifier: Modifier = Modifier,
-                 viewModel : MainViewModel = viewModel(),
+                 viewModel : MainViewModel = hiltViewModel(),
+                 windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfoV2().windowSizeClass
 ) {
+
+
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     val snackbarHostState = remember() { SnackbarHostState() }
@@ -107,7 +127,19 @@ fun MainPantallaContent(
 
     ) {
 
-
+    when (currentDeviceConfiguration()) {
+        DeviceConfiguration.MOBILE_PORTRAIT -> {
+            // Diseño vertical para móvil
+        }
+        DeviceConfiguration.MOBILE_LANDSCAPE -> {
+            // Diseño horizontal compacto
+        }
+        DeviceConfiguration.TABLET_PORTRAIT,
+        DeviceConfiguration.TABLET_LANDSCAPE,
+        DeviceConfiguration.DESKTOP -> {
+            // Diseño expandido de varias columnas
+        }
+    }
 
 
     Scaffold(
@@ -127,7 +159,17 @@ fun MainPantallaContent(
                    onShowError(texto)
                 }
             ) {
-                Text("hola Mundo desde compasbel")
+                // Imagen del personaje
+                AsyncImage(
+                    model ="",
+                    contentDescription = "name",
+                    modifier = Modifier
+                        .size(Dimens.minButtonWidth)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.surfaceVariant),
+                    contentScale = ContentScale.Fit
+                )
+                Text(stringResource(R.string.hola))
             }
             Column(modifier = Modifier.padding(innerPadding)) {
 
